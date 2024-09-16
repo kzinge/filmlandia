@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Meus Filmes
+{% endblock %}
+
+{% block barra_navegacao %}
+    <a href="{{url_for('addfilme')}}">adicionar filmes</a>
+    <a href="{{url_for('removefilme')}}">remover filmes</a>
+    <a href="{{url_for('logout')}}">logout</a>
+{% endblock %}
+
+{% block conteudo %}
+    <ul>
+        {% if filme %}
+        {%for filme in filmes%}
+        <li>
+            <p>Nome do filme: {{filme['fil_nome']}} =-=-= Gênero: {{filme['fil_genero']}}</p>
+            <a href="{{url_for('veravaliacao', fil_id=filme['fil_id'])}}">ver avaliação</a> <!-- Passa o ID do filme para a rota veravaliacao -->
+        </li>
+        {%endfor%}
+        {% else %}
+            <p>você não adicionou filmes ainda</p>
+        {% endif %}
+    </ul>
+{% endblock %}
