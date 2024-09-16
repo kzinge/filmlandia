@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Adicionar Filmes
+{% endblock %}
+
+{% block barra_navegacao %}
+    <a href="{{url_for('meusfilmes')}}">filmes</a>
+    <a href="{{url_for('removefilme')}}">remover filmes</a>
+    <a href="{{url_for('logout')}}">logout</a>
+{% endblock %}
+
+{% block conteudo %}
+    <form action="{{url_for('addfilme')}}" method="POST">
+        <h1>Adicionar filme</h1>
+
+        <label for="adicionar-nome-filme">Nome do filme:</label>
+        <input type="text" name="adicionar-nome-filme" id="adicionar-nome-filme" placeholder="Nome do filme" required>
+
+        <label for="genero-filme">Gênero do filme:</label>
+        <input type="text" name="genero-filme" id="genero-filme" placeholder="Gênero do livro" required>
+
+        <input type="submit" value="Adicionar">
+    </form>
+{% endblock %}
