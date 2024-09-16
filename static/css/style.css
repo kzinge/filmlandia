@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+}
+
+.barra_navegacao {
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.barra_navegacao a {
+    text-decoration: none;
+    background-color: gray;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: 25px;
+    margin-right: 5px;
+}
+
+.rodape {
+    display: flex;
+    width: 100%;
+    background-color: black;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+.conteudo {
+    min-height: 60vh;
+}
