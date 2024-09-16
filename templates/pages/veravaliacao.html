@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Avaliação do filme
+{% endblock %}
+
+{% block conteudo %}
+    {% if nota %}
+        <p>Nome do Filme: {{ nome_filme }}</p>
+        <p>Gênero: {{ genero_filme }}</p>
+        <p>Nota: {{ nota }}</p>
+        <p>Comentário: {{ comentario }}</p>
+    {% else %}
+        <p>{{ comentario }}</p>
+    {% endif %}
+
+    <a href="{{ url_for('meusfilmes') }}">Voltar para Meus Filmes</a>
+{% endblock %}
