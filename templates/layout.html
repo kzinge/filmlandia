@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %} layout base {% endblock %}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+<body>
+    <nav class="barra_navegacao">
+        <h1>FILMLÂNDIA</h1>
+        {% block barra_navegacao %}
+
+        {% endblock %}
+    </nav>
+    <div class="conteudo">
+        {% block conteudo %}
+
+        {% endblock %}
+    </div>
+    <footer class="rodape">
+        <p>Desenvolvido por estudantes</p>
+    </footer>
+</body>
+</html>
