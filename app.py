@@ -1,13 +1,32 @@
 from flask import Flask, session, request, render_template, url_for, redirect, flash
+from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+from os import getenv
+from models import User
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_mysqldb import MySQL
+from flask_mail import Mail, Message
+
 
 app = Flask(__name__)
+load_dotenv('.env')
+login_manager = LoginManager()
+login_manager.init_app(app) #Configura app para trabalhar junto com flask-login
+mail = Mail(app) #Configura app para trabalhar com flask-mail
 
 #configurações necessárias para usar o mysql:
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = getenv('PASSWORD')
 app.config['MYSQL_DB'] = 'db_filmlandia'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
+#configurações para o mail:
+app.config['MAIL_SERVER'] = 'sandbox.smtp.mailtrap.io'
+app.config['MAIL_PORT'] = 2525
+app.config['MAIL_USERNAME'] = getenv('USERMAIL')
+app.config['MAIL_PASSWORD'] = getenv('PASSMAIL')
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 
 #chave para critografia de cookies na sessão
 app.config['SECRET_KEY'] = 'superdificil'
@@ -18,6 +37,9 @@ def get_cursor():
     return conexao.connection.cursor()
 
 
+@login_manager.user_loader #Carregar usuário logado
+def load_user(user_id):
+    return User.get(user_id)
 
 @app.route('/')
 def index():
@@ -26,17 +48,14 @@ def index():
 
 
 @app.route('/meusfilmes/', methods=['POST', 'GET'])
+@login_required
 def meusfilmes():
-    usuario_atual = session.get('usu_id') #Obtendo o usuário atual da sessão
-    if not usuario_atual:
-        return redirect(url_for('login'))
-
     cursor = get_cursor()
     cursor.execute("""
         SELECT fil_id, fil_nome, fil_genero 
         FROM tb_filmes
         WHERE fil_usu_id = %s
-    """, (usuario_atual,))
+    """, (current_user._id,))
 
     filmes = cursor.fetchall()  # Pega todos os filmes do usuário atual
 
@@ -46,14 +65,8 @@ def meusfilmes():
 
 
 @app.route('/veravaliacao/<int:fil_id>', methods=['GET'])
+@login_required
 def veravaliacao(fil_id):
-    # Obtendo o usuário atual da sessão (supondo que esteja armazenado)
-    usuario_atual = session.get('usu_id')
-    
-    if not usuario_atual:
-        # Se o usuário não estiver logado, redirecione para a página de login
-        return redirect(url_for('login'))
-
     cursor = get_cursor()
     
     #Consulta SQL para pegar a avaliação do usuário atual para o filme específico:
@@ -62,7 +75,7 @@ def veravaliacao(fil_id):
         FROM tb_avaliacoes
         JOIN tb_filmes ON ava_fil_id=fil_id
         WHERE ava_fil_id = %s AND ava_usu_id = %s
-    """, (fil_id, usuario_atual,))
+    """, (fil_id, current_user._id,))
     
     avaliacao = cursor.fetchone()  #Retorna uma tupla com os valores da consulta
 
@@ -79,67 +92,56 @@ def veravaliacao(fil_id):
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    if 'usu_id' in session: #se o usuário está logado
-        return redirect (url_for('meusfilmes')) #vai para a lista de filmes
 
-    if request.method == 'GET': #metodo get 
-        return render_template('pages/login.html')
-    else: #metodo post, ou seja preencheu o formulário de login
+    if request.method == 'POST': #metodo post
         nome = request.form['nome']
         senha = request.form['senha']
-        cursor = get_cursor()
-        cursor.execute("SELECT usu_nome, usu_senha FROM tb_usuarios WHERE usu_nome=%s AND usu_senha=%s ", (nome, senha,))
-        cursor.execute("SELECT usu_id FROM tb_usuarios WHERE usu_nome=%s AND usu_senha=%s", (nome, senha,))
-        usuario = cursor.fetchone()
-        if usuario:  # Se o usuário for encontrado
-            session['usu_id'] = usuario['usu_id']  # Armazena o ID do usuário na sessão
-            return redirect(url_for('meusfilmes'))  # Redireciona para a página de filmes
-        else:
-            return "SENHA INCORRETA ou usuário não cadastrado"  # Se o login falhar
+        user = User.get_by_nome(nome)
 
-
+        if user is None: # Se o login falhar
+            flash("Usuário não cadastrado. <a href='" + url_for('cadastro') + "'>Cadastre-se aqui</a>", "error")
+            return redirect(url_for('login')) 
+        if check_password_hash(user['usu_senha'], senha):  # Se o usuário for encontrado
+                login_user(User.get(user['usu_id'])) 
+                return redirect(url_for('meusfilmes'))  # Redireciona para a página de filmes
+        flash("Senha Incorreta", "error")
+        return redirect(url_for('login'))
     
+    else:
+        return render_template('pages/login.html')
+ 
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
-
-    #Se já está logado, redireciona para a página de filmes
-    if 'usu_id' in session:
-        return redirect(url_for('meusfilmes'))  
 
     if request.method == 'GET':
         return render_template('pages/cadastro.html')
     else: #Se o método for post:
         nome = request.form['nome']
-        senha = request.form['senha']
-        cursor = get_cursor()
-
-        cursor.execute("SELECT usu_nome FROM tb_usuarios WHERE usu_nome=%s", (nome,))
-        if not cursor.fetchone(): #se o usuário não tiver no db
-            cursor.execute("INSERT INTO tb_usuarios (usu_nome, usu_senha) VALUES (%s, %s)", (nome, senha,)) #cadastra ele 
-            conexao.connection.commit()
-
+        email = request.form['email']
+        senha = generate_password_hash(request.form['senha'])
+        if not User.exists(nome): #se o usuário não tiver cadastro
+            user = User(usu_nome = nome, usu_email = email, usu_senha = senha)
+            user.save()
+            #Enviar Email
+            # msg = Message(subject='Filmlandia!', 
+            #               sender = getenv('USERMAIL'),
+            #               recipients= [email])
+            # msg.body = 'Olá Carinha, estamos passando aqui para dizer que seu cadastro foi realizado com sucesso em Filmlandia! :)'
+            # mail.send(msg)
             
-            cursor.execute("SELECT usu_id FROM tb_usuarios WHERE usu_nome=%s", (nome,)) #Pega o ID do novo usuário inserido
-            novo_usuario = cursor.fetchone() 
-
-            session['usu_id'] = novo_usuario['usu_id'] #armazena o id na sessão
-            flash('Usuário adicionado com sucesso!', 'success')
+            # Logar o usuário depois de cadastrar
+            login_user(user)
+            flash('Cadastro Realizado!', 'success')
             return redirect(url_for('meusfilmes'))
         else:
             flash('usuário já existe!', 'error')
             return redirect(url_for('login')) 
 
 
-
-
 @app.route('/addfilme', methods=['POST', 'GET'])
+@login_required
 def addfilme():
-    # Verifica se o usuário está logado
-    usuario_atual = session.get('usu_id')
-    if not usuario_atual:
-        # Redireciona para a página de login se o usuário não estiver logado
-        return redirect(url_for('login'))
 
     if request.method == 'POST':
         nome_filme = request.form['adicionar-nome-filme']
@@ -149,7 +151,7 @@ def addfilme():
         cursor.execute("""
             INSERT INTO tb_filmes (fil_nome, fil_genero, fil_usu_id) 
             VALUES (%s, %s, %s)
-        """, (nome_filme, genero_filme, usuario_atual)) # Inserindo o filme no db
+        """, (nome_filme, genero_filme, current_user._id)) # Inserindo o filme no db
         conexao.connection.commit()
 
         #exibe a mensagem e redireciona para a lista de filmes
@@ -163,11 +165,8 @@ def addfilme():
 
 
 @app.route('/removefilme', methods=['POST', 'GET'])
+@login_required
 def removefilme():
-    usuario_atual = session.get('usu_id')
-    if not usuario_atual:
-        return redirect(url_for('login'))
-
     if request.method == 'POST':
         nome_filme = request.form['excluir-nome-filme']
 
@@ -175,21 +174,21 @@ def removefilme():
         cursor.execute("""
             SELECT fil_id FROM tb_filmes
             WHERE fil_nome = %s AND fil_usu_id = %s
-        """, (nome_filme, usuario_atual))
+        """, (nome_filme, current_user._id))
         
         filme = cursor.fetchone()
 
         if filme:
             fil_id = filme['fil_id']
             # Exclui apenas a avaliação do usuário atual
-            cursor.execute("DELETE FROM tb_avaliacoes WHERE ava_fil_id = %s AND ava_usu_id = %s", (fil_id, usuario_atual))
+            cursor.execute("DELETE FROM tb_avaliacoes WHERE ava_fil_id = %s AND ava_usu_id = %s", (fil_id, current_user._id))
             # Exclui o filme se não houver mais avaliações associadas a ele
             cursor.execute("""
                 DELETE FROM tb_filmes 
                 WHERE fil_id = %s AND fil_usu_id = %s AND NOT EXISTS (
                     SELECT 1 FROM tb_avaliacoes WHERE ava_fil_id = %s
                 )
-            """, (fil_id, usuario_atual, fil_id))
+            """, (fil_id, current_user._id, fil_id))
             conexao.connection.commit()
             
             flash('Avaliação removida com sucesso! O filme será removido se não houver mais avaliações associadas.', 'success')
@@ -204,11 +203,8 @@ def removefilme():
 
 
 @app.route('/logout', methods=['POST', 'GET'])
+@login_required
 def logout():
-    #Verifica se o usuário está logado
-    if 'usu_id' in session:
-        session.pop('usu_id', None)#remove o id do usuário e retorna None caso a chave usu_id não exista(evita erros)
-        flash('Logout realizado com sucesso!', 'success')
-    else:
-        flash('Nenhum usuário logado!', 'error')
-    return redirect(url_for('index')) #após o logout redireciona para a página de logout
+    logout_user()
+    flash('Logout Realizado', 'success')
+    return redirect(url_for('index'))

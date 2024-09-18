@@ -10,5 +10,15 @@
         <input type="text" name="nome" placeholder="Nome">
         <input type="password" name="senha" placeholder="Senha">
         <input type="submit">
-    </form>    
+    </form>
+
+    {% with avisos = get_flashed_messages() %}
+    {% if avisos %}
+        <ul>
+        {% for aviso in avisos %}
+            <li>{{ aviso|safe }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
 {% endblock %}

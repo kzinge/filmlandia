@@ -5,7 +5,8 @@ USE `db_filmlandia`;
 CREATE TABLE IF NOT EXISTS tb_usuarios (
     usu_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     usu_nome VARCHAR(100) NOT NULL,
-    usu_senha VARCHAR(100) NOT NULL
+    usu_email TEXT NOT NULL,
+    usu_senha LONGTEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tb_filmes (

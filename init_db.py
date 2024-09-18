@@ -1,10 +1,13 @@
 from flask import Flask
 from flask_mysqldb import MySQL
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
+load_dotenv('.env')
 
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = os.getenv('PASSWORD')
 app.config['MYSQL_DB'] = 'mysql'  # Use o banco de dados padrão para executar o SQL
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
