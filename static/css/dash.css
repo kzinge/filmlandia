@@ -1,0 +1,56 @@
+
+#filmes{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 95%;
+    font-family: 'Archivo';
+
+}
+
+#lista-filmes {
+    padding: 10px;
+    border-radius: 5px;
+    width: 120%;
+    background-color: white;
+    list-style: none;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    display: flex;
+    flex: 1 1 calc(25% - 20px);
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 6px 12px -2px, rgba(204, 20, 20, 0.3) 0px 3px 7px -3px;
+}
+
+#lista-filmes:hover {
+    transition: 0.5s;
+    box-shadow: rgba(255, 127, 30, 0.452) 0px 6px 12px -2px, rgba(204, 20, 20, 0.3) 0px 3px 7px -3px;
+}
+
+#titulo {
+    font-family: 'Anton';
+    font-size: 20pt;
+    color: rgb(255, 106, 32);
+}
+
+#avalia-filmes {
+    display: flex;
+    width: 30%;
+    align-items: end;
+    justify-content: space-between;
+}
+
+
+#avalia-filmes i{
+    color: rgb(4, 4, 27);
+    cursor: pointer;
+}
+
+#avalia-filmes i:hover{
+    transition: 0.2s;
+    background-color: rgb(255, 106, 32);
+    padding: 4px;
+    border-radius: 100%;
+    color: white;
+}

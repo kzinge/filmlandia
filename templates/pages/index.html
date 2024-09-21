@@ -5,11 +5,17 @@
 {% endblock %}
 
 {% block barra_navegacao %}
-<a href="{{url_for('login')}}">Fazer Login</a>
-<a href="{{url_for('cadastro')}}">Se cadastrar</a>
 {% endblock %}
 
 {% block conteudo %}
-    <h1>Seja Bem Vindo!</h1>
-    <p>Aqui na filmlândia você pode registrar os filmes que você já assistiu e avaliar eles.</p>
+    <main id="index">
+        <h1 id="index-title">SEJA BEM-VINDO!</h1>
+        <p>Aqui na filmlândia você pode registrar os filmes que você já assistiu e avaliar eles.</p>
+        
+        <div id="index-acess">
+            <a href="{{url_for('login')}}">LOGIN</a>
+            <span>Ainda não possui conta?</span>
+            <a href="{{url_for('cadastro')}}">CADASTRE-SE</a>
+        </div>
+    </main>
 {% endblock %}

@@ -3,23 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block titulo %} layout base {% endblock %}</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <title>{% block title %} Filmlandia {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dash.css') }}">
+    <script src="https://kit.fontawesome.com/4dbfde8f41.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="barra_navegacao">
-        <h1>FILMLÂNDIA</h1>
-        {% block barra_navegacao %}
-
-        {% endblock %}
-    </nav>
-    <div class="conteudo">
-        {% block conteudo %}
-
-        {% endblock %}
-    </div>
-    <footer class="rodape">
-        <p>Desenvolvido por estudantes</p>
-    </footer>
+    <main>
+        <nav class="barra_navegacao">
+            <h1>FILMLANDIA</h1>
+            <div class="navegacao">
+                {% block barra_navegacao %}
+    
+                {% endblock %}
+            </div>
+        </nav>
+        <div class="conteudo">
+            {% block conteudo %}
+    
+            {% endblock %}
+        </div>
+        <footer class="rodape">
+            <p>Desenvolvido por estudantes</p>
+        </footer>
+    </main>
 </body>
 </html>

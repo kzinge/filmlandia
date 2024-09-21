@@ -1,0 +1,320 @@
+.log{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 40px;
+    width: 35%;
+    height: 45%;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 6px 12px -2px, rgba(204, 20, 20, 0.3) 0px 3px 7px -3px;
+    border-radius: 10px;
+}
+
+input[type=submit]{
+    border-radius: 5px;
+    color: white;
+}
+
+.pass_info {
+    display: flex;
+    align-items: center;
+    border: solid 2px gray;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+
+.pass_info i {
+    margin-right: 5px;
+    background-color: rgb(255, 106, 32);
+    padding: 5px;
+    border-radius: 100%;
+    color: white;
+}
+
+.cad{
+    height: 60%;
+}
+
+.cad form{
+    height: 60%;
+}
+
+
+.log h1{
+    font-family: 'Anton';
+    font-size: 30pt;
+    color: rgb(255, 106, 32);
+}
+
+.form-log {
+    margin-top: 25px;
+    height: 50%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.form-log input{
+    border-style: none;
+    outline: none;
+    width: 100%;
+    font-size: 12pt;
+    font-family: 'Archivo';
+    color: rgb(4, 4, 27);
+    font-weight: bold;
+}
+
+
+.form-log input[type=submit]{
+    border: none;
+    background-color: rgb(255, 106, 32);
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.form-log input[type=submit]:hover {
+    background-color: rgb(4, 4, 27);
+    color: white;
+    transition: 0.5s;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+}
+.avisos {
+    width: 30%;
+
+}
+.avisos-lista {
+    list-style: none;
+    text-decoration: none;
+    color: rgb(255, 106, 32);
+    font-family: 'Archivo';
+    font-size: 10pt;
+}
+
+
+/* FILMES */
+
+#add-filme{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    width: 30%;
+    height: 50%;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 6px 12px -2px, rgba(204, 20, 20, 0.3) 0px 3px 7px -3px;
+    border-radius: 10px;
+    font-family: 'Archivo';
+}
+
+#add-filme h1{
+    font-family: 'Anton';
+    font-size: 30pt;
+    color: rgb(255, 106, 32);
+    text-align: center;
+}
+
+#filme-form{
+    height: 60%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#filme-form input{
+    border-style: none;
+    border: solid 1px gray;
+    outline: none;
+    border-radius: 5px;
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 12pt;
+    font-family: 'Archivo';
+    color: rgb(4, 4, 27);
+    font-weight: bold;
+}
+
+#filme-form select{
+    width: 100%;
+    padding: 12px 20px;
+    background-color: white;
+    border-style: none;
+    border: solid 1px gray;
+    border-radius: 5px;
+    font-family: 'Archivo';
+    color: rgb(4, 4, 27);
+    font-weight: bold;
+}
+
+#filme-form select:focus{
+    border-color: rgb(255, 106, 32);
+}
+
+#filme-form input[type=submit]{
+    background-color: rgb(255, 106, 32);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+#filme-form input[type=submit]:hover{
+    background-color: rgb(4, 4, 27);
+    box-shadow: rgba(255, 127, 30, 0.452) 0px 6px 12px -2px, rgba(204, 20, 20, 0.3) 0px 3px 7px -3px;
+    transition: 0.5s;
+}
+
+#infos{
+    height: 50%;
+}
+
+/* AVALIAÇÃO */
+
+#avaliacao, #visu-filmes{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    width: 30%;
+    height: 50%;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 6px 12px -2px, rgba(204, 20, 20, 0.3) 0px 3px 7px -3px;
+    border-radius: 10px;
+    font-family: 'Archivo';
+}
+
+#avaliacao h1, #visu-filmes h1{
+    font-family: 'Anton';
+    font-size: 30pt;
+    color: rgb(255, 106, 32);
+    text-align: center;
+}
+
+#avaliarfilmeform {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80%;
+    width: 80%;
+}
+
+#avaliarfilmeform label {
+    display: flex;
+    flex-direction: column;
+}
+
+#text-comentario{
+    height: 100px;
+    width: 100%;
+    resize: none;
+    border-style: none;
+    border: solid 1px gray;
+    outline: none;
+    border-radius: 5px;
+}
+
+#text-comentario::placeholder{
+    text-align: center;
+}
+
+#avaliarfilmeform select{
+    width: 20%;
+    padding: 12px 20px;
+    background-color: white;
+    border-style: none;
+    border: solid 1px gray;
+    border-radius: 5px;
+    font-family: 'Archivo';
+    color: rgb(4, 4, 27);
+    font-weight: bold;
+}
+
+#avaliarfilmeform select:focus{
+    border-color: rgb(255, 106, 32);
+}
+
+#avaliarfilmeform  input[type=submit]{
+    background-color: rgb(255, 106, 32);
+    width: 50%;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    align-self: center;
+}
+
+#avaliarfilmeform  input[type=submit]:hover{
+    background-color: rgb(4, 4, 27);
+    box-shadow: rgba(255, 127, 30, 0.452) 0px 6px 12px -2px, rgba(204, 20, 20, 0.3) 0px 3px 7px -3px;
+    transition: 0.5s;
+}
+
+
+#filme-view{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#filme-view ul{
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    border-radius: 20px;
+    justify-content: center;
+    margin-bottom: 3px;
+    background-color: rgb(4, 4, 27);
+}
+
+#visu-filmes {
+    height: 40%;
+}
+
+#comentario-view{
+    width: 100%;
+    padding: 50px;
+    
+}
+
+#comentario-view h1{
+    font-size: 13pt;
+    text-align: justify;
+}
+
+li {
+    list-style: none;
+}
+
+#nofound{
+    display: flex;
+    height: 60%;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#nofound a{
+    text-decoration: none;
+    background-color: rgb(255, 106, 32);
+    padding: 10px 15px;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    width: 50%;
+    margin-top: 5px;
+    text-align: center;
+}
+
+#nofound a:hover{
+    background-color: rgb(4, 4, 27);
+    box-shadow: rgba(255, 127, 30, 0.452) 0px 6px 12px -2px, rgba(204, 20, 20, 0.3) 0px 3px 7px -3px;
+    transition: 0.5s;
+}

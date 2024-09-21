@@ -5,21 +5,34 @@
 {% endblock %}
 
 {% block barra_navegacao %}
-    <a href="{{url_for('meusfilmes')}}">filmes</a>
-    <a href="{{url_for('removefilme')}}">remover filmes</a>
+    <a href="{{url_for('meusfilmes')}}">Início</a>
     <a href="{{url_for('logout')}}">logout</a>
 {% endblock %}
 
 {% block conteudo %}
-    <form action="{{url_for('addfilme')}}" method="POST">
+    <main id="add-filme">
         <h1>Adicionar filme</h1>
-
-        <label for="adicionar-nome-filme">Nome do filme:</label>
-        <input type="text" name="adicionar-nome-filme" id="adicionar-nome-filme" placeholder="Nome do filme" required>
-
-        <label for="genero-filme">Gênero do filme:</label>
-        <input type="text" name="genero-filme" id="genero-filme" placeholder="Gênero do livro" required>
-
-        <input type="submit" value="Adicionar">
-    </form>
+        <form action="{{url_for('addfilme')}}" method="POST" id="filme-form">
+                <div id="nomefilme">
+                    <label for="adicionar-nome-filme">Nome do filme:</label>
+                    <input type="text" name="adicionar-nome-filme" id="adicionar-nome-filme" placeholder="Nome do filme" required>
+        
+                </div>
+                <div id="generofilme">
+                    <label for="genero-filme">Gênero:</label>
+                    <select name="genero" id="genero-filme" required>
+                        <option value="" disabled selected>Selecione o Gênero</option>
+                        <option value="Ação e Aventura">Ação e Aventura</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Suspense">Suspense</option>
+                        <option value="Terror">Terror</option>
+                        <option value="Comédia">Comédia</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Ficção Científica">Ficção Científica</option>
+                        <option value="Documentário">Documentário</option>
+                    </select>
+                </div>
+            <input type="submit" value="Adicionar">
+        </form>
+    </main>
 {% endblock %}

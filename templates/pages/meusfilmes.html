@@ -5,22 +5,34 @@
 {% endblock %}
 
 {% block barra_navegacao %}
-    <a href="{{url_for('addfilme')}}">adicionar filmes</a>
-    <a href="{{url_for('removefilme')}}">remover filmes</a>
-    <a href="{{url_for('logout')}}">logout</a>
+    <a href="{{url_for('addfilme')}}">Novo Filme</a>
+    <a href="{{url_for('logout')}}">Sair</a>
 {% endblock %}
 
 {% block conteudo %}
-    <ul>
-        {% if filme %}
-        {%for filme in filmes%}
-        <li>
-            <p>Nome do filme: {{filme['fil_nome']}} =-=-= Gênero: {{filme['fil_genero']}}</p>
-            <a href="{{url_for('veravaliacao', fil_id=filme['fil_id'])}}">ver avaliação</a> <!-- Passa o ID do filme para a rota veravaliacao -->
-        </li>
-        {%endfor%}
-        {% else %}
-            <p>você não adicionou filmes ainda</p>
-        {% endif %}
-    </ul>
+    <main id="filmes">
+        <ul>
+            {%for filme in filmes%}
+            <li id="lista-filmes">
+                <div id="info-filmes">
+                    <p id="titulo">{{filme['fil_nome']}}</p>
+                    <p id="genero"><b>Gênero:</b> {{filme['fil_genero']}}</p>
+                </div>
+                <div id="avalia-filmes">
+                    <a href="{{url_for('veravaliacao', fil_id=filme['fil_id'])}}">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                    <form action="{{ url_for('removefilme', fil_id=filme['fil_id']) }}" method="post" style="display: inline;" id="excluir">
+                        <button type="submit" aria-label="Excluir filme" style="background: none; border: none; cursor: pointer;">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+                    <a href="{{url_for('avaliarfilme', fil_id=filme['fil_id']) }}">
+                        <i class="fa-solid fa-star"></i>
+                    </a>
+                </div>
+            </li>
+            {%endfor%}
+        </ul>
+    </main>
 {% endblock %}

@@ -4,15 +4,38 @@
     Avaliação do filme
 {% endblock %}
 
-{% block conteudo %}
-    {% if nota %}
-        <p>Nome do Filme: {{ nome_filme }}</p>
-        <p>Gênero: {{ genero_filme }}</p>
-        <p>Nota: {{ nota }}</p>
-        <p>Comentário: {{ comentario }}</p>
-    {% else %}
-        <p>{{ comentario }}</p>
-    {% endif %}
+{% block barra_navegacao %}
+    <a href="{{url_for('meusfilmes')}}">Meus Filmes</a>
+    <a href="{{url_for('logout')}}">Sair</a>
+{% endblock %}
 
-    <a href="{{ url_for('meusfilmes') }}">Voltar para Meus Filmes</a>
+{% block conteudo %}
+    <main id="visu-filmes">
+    {% if nota is not none%}
+        <div id="filme-view">
+            <h1>{{filme_nome}}</h1>
+            <div id="info-view">
+                <ul>
+                    {% if nota == 0 %}
+                        <li>🤮</li>
+                    {% else %}
+                        {% for estrela in range(nota)%}
+                        <li>⭐</li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <p>{{ filme_genero }}</p>
+            </div>
+        </div>
+        <div id='comentario-view'>
+            <h1>Seu comentário:</h1>
+            <p>{{ comentario }}</p>
+        </div>
+    {% else %}
+        <div id="nofound">
+            <p>{{ comentario }}</p>
+            <a href="{{ url_for('avaliarfilme', fil_id = filme_id)}}">Avalie agora!</a>
+        </div>
+    {% endif %}
+    </main>
 {% endblock %}

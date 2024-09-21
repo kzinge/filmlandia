@@ -1,0 +1,59 @@
+
+
+.conteudo #index{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 40px;
+    width: 35%;
+    height: 45%;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(255, 255, 255, 0.25) 0px 6px 12px -2px, rgba(204, 20, 20, 0.3) 0px 3px 7px -3px;
+    border-radius: 10px;
+    font-family: 'Archivo';
+
+}
+
+.conteudo #index-title{
+    color: #ff6a20;
+    font-size: 50pt;
+    font-family: 'Anton';
+}
+
+#index-acess {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 60%;
+    height: 50%;
+    border-radius: 10px;
+    padding-top: 20px;
+    
+}
+
+#index-acess span{
+    font-size: 10pt;
+    opacity: 70%;
+}
+
+#index-acess a {
+    font-size: 13pt;
+    text-decoration: none;
+    background-color: rgb(180, 180, 180);
+    color: black;
+    border-radius: 5px;
+    width: 70%;
+    padding: 15px;
+    text-align: center;
+    
+}
+
+#index-acess a:hover {
+    background-color:  rgb(255, 106, 32);
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    transition: ease-in-out, 0.6s;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+}

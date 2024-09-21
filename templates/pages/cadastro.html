@@ -3,11 +3,38 @@
     Cadastro
 {% endblock %}
 
+{% block barra_navegacao %}
+    <a href="{{url_for('index')}}">Início</a>
+    <a href="{{url_for('login')}}">Login</a>
+{% endblock %}
+
+
 {% block conteudo %}
-    <form action="{{ url_for('cadastro') }}" method="POST">
-        <input type="nome" name="nome" placeholder="Nome">
-        <input type="email" name="email" placeholder="Email">
-        <input type="password" name="senha" placeholder="Senha">
-        <input type="submit">
-    </form>    
+    <main class="log cad">
+        <h1>CADASTRO</h1>
+        <form action="{{ url_for('cadastro') }}" method="POST" class="form-log">
+            <div class="pass_info">
+                <i class="fa-solid fa-user"></i>
+                <input type="nome" name="nome" placeholder="Digite seu nome" required>
+            </div>
+            <div class="pass_info">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" name="email" placeholder="Digite seu email" required>
+            </div>
+            <div class="pass_info">
+                <i class="fa-solid fa-key"></i>
+                <input type="password" name="senha" placeholder="Crie uma senha" required>
+            </div>
+            <input type="submit" value="Cadastrar">
+        </form> 
+        {% with avisos = get_flashed_messages() %}
+        {% if avisos %}
+            <ul class="avisos">
+            {% for aviso in avisos %}
+                <li class="avisos-lista">{{ aviso|safe }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+    </main>
 {% endblock %}

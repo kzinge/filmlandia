@@ -4,21 +4,35 @@
     Login
 {% endblock %}
 
-{% block conteudo %}
-    <form action="{{ url_for('login') }}" method="POST">
-        <h1>Login</h1>
-        <input type="text" name="nome" placeholder="Nome">
-        <input type="password" name="senha" placeholder="Senha">
-        <input type="submit">
-    </form>
+{% block barra_navegacao %}
+    <a href="{{url_for('index')}}">Início</a>
+    <a href="{{url_for('cadastro')}}">Cadastro</a>
+{% endblock %}
 
-    {% with avisos = get_flashed_messages() %}
-    {% if avisos %}
-        <ul>
-        {% for aviso in avisos %}
-            <li>{{ aviso|safe }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-    {% endwith %}
+
+{% block conteudo %}
+    <main class="log">
+        <h1>LOGIN</h1>
+        <form action="{{ url_for('login') }}" method="POST" class="form-log">
+            <div class="pass_info">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" name="nome" placeholder="User" required>
+            </div>
+            <div class="pass_info">
+                <i class="fa-solid fa-key"></i>
+                <input type="password" name="senha" placeholder="Senha" required>
+            </div>
+            <input type="submit" name="login" value="Login">
+        </form>
+    
+        {% with avisos = get_flashed_messages() %}
+        {% if avisos %}
+            <ul class="avisos">
+            {% for aviso in avisos %}
+                <li class="avisos-lista">{{ aviso|safe }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+    </main>
 {% endblock %}

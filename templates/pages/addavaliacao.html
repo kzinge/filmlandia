@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Avaliação do filme
+{% endblock %}
+
+{% block barra_navegacao %}
+    <a href="{{url_for('meusfilmes')}}">Meus Filmes</a>
+    <a href="{{url_for('logout')}}">Sair</a>
+{% endblock %}
+
+{% block conteudo %}
+    <main id="avaliacao">
+        <h1>Avaliar: {{ fil_nome }}</h1>
+        <form action="{{url_for('avaliarfilme', fil_id=fil_id)}}" method="POST" id="avaliarfilmeform">
+            <label for="comentario">Comentário</label>
+            <textarea name="comentario" id="text-comentario" placeholder="Comente sua experiência!"></textarea>
+            <label for="nota">Qual é a sua nota?</label>
+            <select name="nota" id="nota">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <input type="submit" value="Avaliar">
+        </form>
+    </main>
+{% endblock %}
